@@ -1,4 +1,4 @@
-﻿sing Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using LabManager.Database;
 using LabManager.Repositories;
 
