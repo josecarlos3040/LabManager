@@ -37,7 +37,7 @@ if (modelName == "Computer")
         }
         catch (System.Exception)
         {
-            Console.WriteLine("Input value is not valid (id may not exist)");
+            Console.WriteLine("Valor de entrada inválido");
         }
     }
     if (modelAction == "Update")
@@ -45,7 +45,6 @@ if (modelName == "Computer")
         var id = Convert.ToInt32(args[2]);
         var ram = args[3];
         var processor = args[4];
-
         var computer = new Computer(id, ram, processor);
 
         computerRepository.Update(computer);
