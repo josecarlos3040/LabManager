@@ -4,13 +4,9 @@ using LabManager.Repositories;
 using LabManager.Models;
 
 var databaseConfig = new DatabaseConfig();
-
 var DatabaseSetup = new DatabaseSetup(databaseConfig);
-
 var computerRepository = new ComputerRepository(databaseConfig);
-
 var modelName = args[0];
-
 var modelAction = args[1];
 
 if (modelName == "Computer")
@@ -44,7 +40,6 @@ if (modelName == "Computer")
             Console.WriteLine("Input value is not valid (id may not exist)");
         }
     }
-
     if (modelAction == "Update")
     {
         var id = Convert.ToInt32(args[2]);
