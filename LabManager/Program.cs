@@ -6,6 +6,7 @@ using LabManager.Models;
 var databaseConfig = new DatabaseConfig();
 var DatabaseSetup = new DatabaseSetup(databaseConfig);
 var computerRepository = new ComputerRepository(databaseConfig);
+
 var modelName = args[0];
 var modelAction = args[1];
 
@@ -19,6 +20,7 @@ if (modelName == "Computer")
             Console.WriteLine($"{computer.Id}, {computer.Ram}, {computer.Processor}");
         }
     }
+
     if (modelAction == "New")
     {
         var id = Convert.ToInt32(args[2]);
@@ -27,18 +29,21 @@ if (modelName == "Computer")
         var computer = new Computer(id, ram, processor);
         computerRepository.Save(computer);
     }
+
     if (modelAction == "Show")
     {
-        try
+  
+        var id = Convert.ToInt32(args[2]);
+        if(computerRepository.ExistsById(id))
         {
-            var id = Convert.ToInt32(args[2]);
             var computer = computerRepository.GetById(id);
             Console.WriteLine($"{computer.Id}, {computer.Ram}, {computer.Processor}");
         }
-        catch (System.Exception)
+        else
         {
-            Console.WriteLine("Valor de entrada inválido");
+            Console.WriteLine($"O computador com id {id} não existe");
         }
+
     }
     if (modelAction == "Update")
     {
@@ -48,11 +53,12 @@ if (modelName == "Computer")
         var computer = new Computer(id, ram, processor);
 
         computerRepository.Update(computer);
-        Console.WriteLine("Computer updated");
+        Console.WriteLine("Computador atualizado");
     }
      if(modelAction == "Delete")
     {
-        Console.WriteLine("Computer Delete");
+        
+        Console.WriteLine("Computador deletado");
         try
         {
             computerRepository.Delete(Convert.ToInt32(args[2]));
