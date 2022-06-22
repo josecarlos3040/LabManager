@@ -26,4 +26,22 @@ class DatabaseSetup
         command.ExecuteNonQuery();
         connection.Close();
     }
+     private void CreateLabTable()
+    {
+        var connection = new SqliteConnection(_databaseConfig.ConnectionString);
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = @"
+            CREATE TABLE IF NOT EXISTS Labs(
+                id int not null primary key,
+                number varchar(100) not null,
+                name varchar(100) not null,
+                block varchar (100) not null
+            );
+        ";
+
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
 }
