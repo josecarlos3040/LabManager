@@ -5,12 +5,15 @@ using LabManager.Models;
 
 var databaseConfig = new DatabaseConfig();
 var DatabaseSetup = new DatabaseSetup(databaseConfig);
+var computerRepository = new ComputerRepository(databaseConfig);
+var labRepository = new LabRepository(databaseConfig);
+
 var modelName = args[0];
 var modelAction = args[1];
 
 if (modelName == "Computer")
 {
-    var computerRepository = new ComputerRepository(databaseConfig);
+    
     if (modelAction == "List")
     {
         Console.WriteLine("Computer List");
@@ -22,15 +25,16 @@ if (modelName == "Computer")
 
     if (modelAction == "New")
     {
-        var id = Convert.ToInt32(args[2]);
-        var ram = args[3];
-        var processor = args[4];
-
-        var computer = new Computer(id, ram, processor);
-
-        computerRepository.Save(computer);
+        if(computerRepository.ExistsById(Convert.ToInt32(args[2])))
+        {
+            Console.WriteLine("Id de computador ja existe");
+        }
+        else
+        {
+            var computer = new Computer(Convert.ToInt32(args[2]), args[3], args[4]);
+            computerRepository.Save(computer);
+        }
     }
-
     if (modelAction == "Show")
     {
         var id = Convert.ToInt32(args[2]);
@@ -40,25 +44,24 @@ if (modelName == "Computer")
             var computer = computerRepository.GetById(id);
             Console.WriteLine($"{computer.Id}, {computer.Ram}, {computer.Processor}");
         }
-        else { Console.WriteLine("Valor inserido invalido"); }
+        else {
+            Console.WriteLine("Valor inserido invalido"); 
+        }
     }
 
     if (modelAction == "Update")
     {
-        var id = Convert.ToInt32(args[2]);
-
-        if (computerRepository.ExistsById(id))
+        Console.WriteLine("Computer Update");
+        if(computerRepository.ExistsById(Convert.ToInt32(args[2])))
         {
-
-            var ram = args[3];
-            var processor = args[4];
-
-            var computer = new Computer(id, ram, processor);
-
+            var computer = new Computer(Convert.ToInt32(args[2]), args[3], args[4]);
             computerRepository.Update(computer);
-            Console.WriteLine("Updated");
+            Console.WriteLine("Computer atualizado");
         }
-        else { Console.WriteLine("Valor inserido invalido"); }
+        else
+        {
+            Console.WriteLine("Id de computador");
+        }
     }
 
     if (modelAction == "Delete")
@@ -68,15 +71,16 @@ if (modelName == "Computer")
         if (computerRepository.ExistsById(id))
         {
             computerRepository.Delete(id);
-            Console.WriteLine("Deleted");
+            Console.WriteLine("Deletado");
         }
-        else { Console.WriteLine("Valor inserido invalido"); }
+        else { 
+            Console.WriteLine("Valor inserido invalido"); 
+        }
     }
 }
 
 if (modelName == "Lab")
 {
-    var labRepository = new LabRepository(databaseConfig);
 
     if (modelAction == "List")
     {
@@ -107,7 +111,9 @@ if (modelName == "Lab")
             var lab = labRepository.GetById(id);
             Console.WriteLine($"{lab.Id}, {lab.Number}, {lab.Name}, {lab.Block}");
         }
-        else { Console.WriteLine("Valor inserido invalido"); }
+        else {
+            Console.WriteLine("Valor inserido invalido"); 
+        }
     }
 
     if (modelAction == "Update")
@@ -116,7 +122,6 @@ if (modelName == "Lab")
 
         if (labRepository.ExistsById(id))
         {
-
             var number = args[3];
             var name = args[4];
             var block = args[5];
@@ -124,9 +129,11 @@ if (modelName == "Lab")
             var lab = new Lab(id, number, name, block);
 
             labRepository.Update(lab);
-            Console.WriteLine("Updated");
+            Console.WriteLine("Atualizado");
         }
-        else { Console.WriteLine("Valor inserido invalido"); }
+        else {
+            Console.WriteLine("Valor inserido invalido"); 
+        }
     }
 
     if (modelAction == "Delete")
@@ -136,9 +143,11 @@ if (modelName == "Lab")
         if (labRepository.ExistsById(id))
         {
             labRepository.Delete(id);
-            Console.WriteLine("Deleted");
+            Console.WriteLine("Deletado");
         }
-        else { Console.WriteLine("Valor inserido invalido"); }
+        else {
+            Console.WriteLine("Valor inserido invalido"); 
+        }
     }
 }
 

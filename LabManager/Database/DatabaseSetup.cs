@@ -8,6 +8,7 @@ class DatabaseSetup
     {
         _databaseConfig = databaseConfig;
         CreateComputerTable();
+        CreateLabTable();
     }
 
     private void CreateComputerTable()
@@ -26,7 +27,8 @@ class DatabaseSetup
         command.ExecuteNonQuery();
         connection.Close();
     }
-     private void CreateLabTable()
+
+    private void CreateLabTable()
     {
         var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
